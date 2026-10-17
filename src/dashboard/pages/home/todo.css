@@ -85,3 +85,24 @@
 .fade-out {
     animation: fadeOut 1s forwards;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .todo_goals-container {
+        margin: 0.75rem;
+    }
+
+    .todo_goals-container-header h1 {
+        font-size: 18px;
+    }
+
+    .todo_goals-container-goals_input {
+        max-height: 280px;
+    }
+
+    .goal-checkbox.todo_goal-checkbox,
+    .goal-checkbox.plus.todo_goal-checkbox {
+        height: 56px;
+        min-height: 56px;
+    }
+}

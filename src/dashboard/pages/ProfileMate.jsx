@@ -6,6 +6,8 @@ import SetterPercentage from './home/SetterPercentage';
 import ActualWorkSetter from './home/ActualWorkSetter';
 import XpointSetter from './home/XpointSetter';
 import { useParams } from 'react-router-dom';
+import api1 from '../../api/DashboardAPI';
+import api2 from '../../api/SignUpAPI';
 
 
 const ProfileMate = () => {
@@ -18,13 +20,13 @@ const ProfileMate = () => {
   useEffect(() => {
     const fetchTeamMate = async () => {
       try {
-        const response = await fetch(`http://localhost:3500/SignUpAPI/${id}`); // Fetching the teamMate data
-        const data = await response.json();  // Parse response data
+        const response = await api2.get(`/SignUpAPI/${id}`); // Fetching the teamMate data
+        const data = response.data;  // Parse response data
         setTeamMate(data);  // Set the fetched data to state
 
         // Fetch percentage data for the specific teammate
-        const dashboardResponse = await fetch('http://localhost:3400/DashboardAPI');
-        const dashboardData = await dashboardResponse.json();
+        const dashboardResponse = await api1.get('/DashboardAPI');
+        const dashboardData = dashboardResponse.data;
         const teammateData = dashboardData.find(item => item.email === data.email);
         setTeammatePercentage(teammateData ? teammateData.percentage : 0);
         

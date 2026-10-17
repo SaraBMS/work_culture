@@ -45,6 +45,50 @@
     flex-direction: column;
 }
 
+.auth_hint_card {
+    width: 100%;
+    max-width: 470px;
+    padding: 12px 14px;
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(1, 185, 253, 0.25);
+    background: rgba(1, 185, 253, 0.08);
+    color: var(--font-color);
+    font-family: var(--font-family);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.auth_hint_card p + p {
+    margin-top: 0.35rem;
+}
+
+.auth_hint_card code {
+    color: #8fe8ff;
+}
+
+.auth_status {
+    width: 100%;
+    max-width: 470px;
+    margin-bottom: 0.75rem;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-family: var(--font-family);
+    font-size: 13px;
+}
+
+.auth_status-error {
+    color: #ffb3b3;
+    border: 1px solid rgba(255, 92, 92, 0.3);
+    background: rgba(255, 92, 92, 0.08);
+}
+
+.auth_status-success {
+    color: #b7ffe4;
+    border: 1px solid rgba(5, 205, 153, 0.3);
+    background: rgba(5, 205, 153, 0.08);
+}
+
 .sign__container-content-header-profile {
     display: flex;
     justify-content: center;
@@ -264,5 +308,59 @@ input::selection {
     .sign__container-content-header img {
         width: 165px;
         height: 41px;
+    }
+}
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 1200px) {
+    .sign__container-content-inputs input,
+    .sign__container-content-inputs .button {
+        width: 100%;
+        max-width: 470px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .sign__container {
+        flex-direction: column;
+    }
+
+    .sign__container-content {
+        padding: 1rem 2rem;
+    }
+
+    .sign__container-content-inputs input,
+    .sign__container-content-inputs .button {
+        max-width: 100%;
+    }
+
+    .sign__container-image img {
+        height: 50vh;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sign__container-content {
+        padding: 1rem;
+    }
+
+    .sign__container-content-header h1 {
+        font-size: 28px;
+        line-height: 34px;
+    }
+
+    .sign__container-content-header-profile img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .sign__container-image img {
+        height: 35vh;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .sign__container-image {
+        display: none;
     }
 }

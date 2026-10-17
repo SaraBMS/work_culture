@@ -49,7 +49,7 @@ const Notification = ({className}) => {
 
   const fetchNotifications = async () => {
     try {
-      const response = await api.get('/SignUpAPI');
+      const response = await api.get('/Notifications');
       setNotifications(response.data);
       setFilteredNotifications(response.data); // Initialize filteredNotifications with fetched data
       setHasNotification(response.data.some(notif => !notif.read)); // Set notification state

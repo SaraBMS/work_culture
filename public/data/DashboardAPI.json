@@ -2,9 +2,9 @@
   "DashboardAPI": [
     {
       "id": "2",
-      "email": "obada@o",
+      "email": "obada@r",
       "completed": true,
-      "description": "",
+      "description": "Finish the dashboard layout",
       "type": "Actual Work",
       "percentage": 33
     },
@@ -12,7 +12,7 @@
       "id": "3",
       "email": "leen@l",
       "completed": true,
-      "description": "",
+      "description": "Review the brand guidelines",
       "type": "X Points",
       "percentage": 73
     },
@@ -20,7 +20,7 @@
       "id": "4",
       "email": "mohammed@h",
       "completed": true,
-      "description": "",
+      "description": "Ship the authentication API",
       "type": "X Points",
       "percentage": 67
     },
@@ -28,65 +28,81 @@
       "id": "5",
       "email": "leen@d",
       "completed": true,
-      "description": "",
+      "description": "Refine the setter page",
       "type": "Actual Work",
       "percentage": 78
     },
     {
       "id": "6",
-      "email": "obada@r",
+      "email": "eve@e",
       "completed": true,
-      "description": "",
+      "description": "Polish the notification panel",
       "type": "Actual Work",
       "percentage": 78
     },
     {
       "id": "7",
-      "email": "",
-      "completed": true,
-      "description": "",
+      "email": "sara@f",
+      "completed": false,
+      "description": "Plan the weekly goals",
       "type": "Actual Work",
       "percentage": 17
     },
     {
       "id": "8",
-      "email": "",
+      "email": "sara@vv.com",
       "completed": true,
-      "description": "work on about us page",
+      "description": "Work on the About Us page",
       "type": "Actual Work",
       "percentage": 73
     },
     {
       "id": "9",
-      "email": "",
+      "email": "sara@eng.com",
       "completed": true,
-      "description": "x point work on setter page",
+      "description": "Connect the setter page data",
       "type": "X Points",
       "percentage": 63
     },
     {
       "id": "10",
-      "email": "",
+      "email": "sara@gg.com",
       "completed": true,
-      "description": "",
+      "description": "Set up the calendar view",
       "type": "Actual Work",
       "percentage": 89
     },
     {
       "id": "11",
-      "email": "",
+      "email": "obada@r",
       "completed": false,
-      "description": "goal 111",
+      "description": "Prepare the sprint demo",
       "type": "Actual Work",
       "percentage": 89
     },
     {
       "id": "12",
-      "email": "",
+      "email": "mohammed@h",
       "completed": true,
-      "description": "x point goal",
+      "description": "Write the release notes",
       "type": "X Points",
       "percentage": 82
+    },
+    {
+      "id": "13",
+      "email": "maya@business.com",
+      "completed": false,
+      "description": "Review the control panel visual polish",
+      "type": "Actual Work",
+      "percentage": 55
+    },
+    {
+      "id": "14",
+      "email": "lynn@business.com",
+      "completed": true,
+      "description": "Prepare the weekly delivery recap",
+      "type": "X Points",
+      "percentage": 91
     }
   ]
 }

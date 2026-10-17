@@ -204,3 +204,44 @@
 .team_mates-mates_container-feild-container-button button:hover {
     box-shadow: 0 0 10px var(--main-color);
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .team_mates {
+        margin: 1rem;
+    }
+
+    .team_mates-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .team_mates-mates_container {
+        height: 360px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .team_mates-mates_container {
+        height: auto;
+        max-height: 380px;
+    }
+
+    .team_mates-mates_container-feild {
+        width: 100%;
+    }
+
+    .team_mates-mates_container-feild-container {
+        height: auto;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .team_mates-mates_container-feild-container-info.w_42 {
+        width: 100%;
+    }
+
+    .team_mates-mates_container-feild-container-info-profile {
+        margin-left: 0.5rem;
+    }
+}

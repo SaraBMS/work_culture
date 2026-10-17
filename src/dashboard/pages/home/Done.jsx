@@ -21,6 +21,10 @@ const Done = () => {
     openCanvas();
   };
 
+  const handleToggleGoalCompletion = (id) => {
+    toggleGoalCompletion(id);
+  };
+
   return (
     <div className="done_goals-container">
       <div className="done_goals-container-header">
@@ -44,8 +48,10 @@ const Done = () => {
                 checked={goal.completed}
                 readOnly
               />
-              <span onClick={() => toggleGoalCompletion(goal.id)}></span>
-              Goal {goal.id}
+              <span onClick={() => handleToggleGoalCompletion(goal.id)}></span>
+              <span onClick={() => handleToggleGoalCompletion(goal.id)}>
+                {goal.description || `Goal ${goal.id}`}
+              </span>
             </label>
           )))))}
       </div>

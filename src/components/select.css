@@ -97,3 +97,28 @@
     border-radius: 50%;
     margin-right: 20px;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .selected-option {
+        font-size: 16px;
+        padding: 14px 8px;
+    }
+
+    .options-dropdown {
+        max-height: 240px;
+        height: 200px;
+    }
+
+    .option {
+        font-size: 16px;
+        height: 46px;
+        padding: 14px 8px;
+    }
+
+    .color-circle {
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+    }
+}

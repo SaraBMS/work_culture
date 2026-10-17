@@ -1,11 +1,10 @@
 // origin private route
 import React from 'react';
 import { Navigate } from "react-router-dom";
-import { jwtDecode } from 'jwt-decode'; // Import jwt-decode correctly
 import { useAuth } from './hook/EmailProvider';
 
 const PrivateRoutes = ({ children }) => {
-    const authToken = useAuth(); // Get the token from context or wherever it's stored
+    const { authToken } = useAuth();
 
     // const isTokenValid = (token) => {
     //     try {
@@ -18,7 +17,7 @@ const PrivateRoutes = ({ children }) => {
     // };
 
     // return isTokenValid(authToken) ? children : <Navigate to="/login" />;
-    return authToken ? children : <Navigate to="/login" />;
+    return authToken || localStorage.getItem('token') ? children : <Navigate to="/login" replace />;
 };
 
 export default PrivateRoutes;

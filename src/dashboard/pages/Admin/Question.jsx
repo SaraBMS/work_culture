@@ -1,19 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
+import api1 from '../../../api/SignUpAPI';
+import api2 from '../../../api/QuestionAPI';
 import './question.css';
 import Avatar from '../../../assets/images/Avatar.svg';
-import { useImage, useEmail, useRole } from '../../../hook/EmailProvider';
+import { useEmail } from '../../../hook/EmailProvider';
 import BoxContainer from '../home/BoxContainer';
 import { useStateContext } from '../../../hook/ContextProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
-import refreshButton from '../../../assets/images/refreshButton.svg';
-
-const api1 = axios.create({
-    baseURL: 'http://localhost:3500'
-});
-const api2 = axios.create({
-    baseURL: 'http://localhost:3300'
-});
 
 const agencyStyles = {
     'DevSyro': {
@@ -39,11 +32,9 @@ const agencyStyles = {
 };
 
 const Question = () => {
-    const { image } = useImage(); 
-    const { role } = useRole(); 
-    const { email, yourQue, agency } = useEmail(); 
+    const { yourQue } = useEmail();
     const [teamMates, setTeamMates] = useState([]);
-    const { openAnspopUp, setSelectedQuestion, answeredQuestions  } = useStateContext();
+    const { openAnspopUp, openpopUp, setSelectedQuestion, answeredQuestions  } = useStateContext();
     const containerRef = useRef(null); // Ref to get the container's width
     const location = useLocation();
     const [checkedState, setCheckedState] = useState({});
@@ -55,13 +46,17 @@ const Question = () => {
         const fetchData = async () => {
             try {
                 const signupResponse = await api1.get('/SignUpAPI', { params: { question: yourQue } });
-                const signupData = signupResponse.data;
+                const signupData = signupResponse.data.filter((item) => item.role !== 'admin');
 
                 const questionResponse = await api2.get('/QuestionAPI', { params: { question: yourQue } });
                 const questionData = questionResponse.data;
 
                 const combinedData = signupData.map((signupItem, index) => {
                     const questionItem = questionData.find(q => q.email === signupItem.email);
+
+                    if (!questionItem) {
+                        return null;
+                    }
 
                     return {
                         index: index,
@@ -71,13 +66,13 @@ const Question = () => {
                         agency_color: agencyStyles[signupItem.selectedOption2]?.agency_color || '#000',
                         color: agencyStyles[signupItem.selectedOption2]?.color || '#000',
                         background: agencyStyles[signupItem.selectedOption2]?.background || '#0000001A',
-                        question: questionItem?.question || null, // Set to null if no question available
-                        date: questionItem?.date,
-                        email: email,
-                        answered: answeredQuestions[questionItem?.question] || false, // Check if answered
+                        question: questionItem.question,
+                        date: questionItem.date || '9/18/2024',
+                        email: signupItem.email,
+                        answered: answeredQuestions[questionItem.question] || Boolean(questionItem.answer),
                         id: signupItem.id
                     };
-                });
+                }).filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date));
 
                 setTeamMates(combinedData);
                 setCheckedState(combinedData.reduce((acc, mate) => ({ ...acc, [mate.index]: false }), {}));
@@ -87,7 +82,7 @@ const Question = () => {
         };
 
         fetchData();
-    }, [yourQue]);
+    }, [answeredQuestions, yourQue]);
 
     const handleAnswerClick = (question) => {
         setSelectedQuestion(question);
@@ -131,7 +126,7 @@ const Question = () => {
             </div>
           </div>  
           <div className="add_question_button">  
-          <button type='button'>
+          <button type='button' onClick={openpopUp}>
           Add Question
           <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_957_2475)">
@@ -151,7 +146,7 @@ const Question = () => {
                 )}
                 <div className='question-container' ref={containerRef} >
                     {teamMates.length > 0 ? (
-                        teamMates.map((teamMate) => (
+                        (isPanelPage ? teamMates.slice(0, 4) : teamMates).map((teamMate) => (
                             <div
                              key={teamMate.index} 
                              className="question-container-mates_container" 
@@ -163,7 +158,7 @@ const Question = () => {
                                  style={{ cursor: 'pointer' }}
                                 >
                                     <img
-                                        src={image || teamMate.profile}
+                                        src={teamMate.profile}
                                         alt="profile_image"
                                         className="pro_img mate"
                                         style={{ borderColor: teamMate.agency_color }}
@@ -178,11 +173,7 @@ const Question = () => {
                                 
                                 <div className="question-container-mates_container-faq_mate">
                                     {!checkedState[teamMate.index] ? (
-                                        teamMate.question ? (
-                                            sliceQuestion(teamMate.question)
-                                        ) : (
-                                            <span>No question available</span>
-                                        )
+                                        sliceQuestion(teamMate.question)
                                     ) : (
                                         <span className="question-answered_question">{ teamMate.question }</span>
                                     )}
@@ -195,9 +186,7 @@ const Question = () => {
                                             type="checkbox"
                                             checked={checkedState[teamMate.index]}
                                             onChange={() => handleCheckboxChange(teamMate.index)}
-                                            disabled={!teamMate.question || teamMate.answered} 
-                                          
-                                            // Disable if no question
+                                            disabled={teamMate.answered}
                                         />
                                         <label htmlFor={teamMate.index}>
                                             <div className="handle"></div>
@@ -218,7 +207,7 @@ const Question = () => {
                                         <button 
                                             type='button' 
                                             onClick={() => handleAnswerClick(teamMate.question)}
-                                            disabled={!teamMate.question ||teamMate.answered  } // Disable if no question
+                                            disabled={teamMate.answered}
                                         >
                                             Answer Question
                                         </button>
@@ -230,7 +219,7 @@ const Question = () => {
                             </div>
                         ))
                     ) : (
-                        <p>No teammates' questions available.</p>
+                        <p className='question-empty'>Questions will appear here as soon as teammates submit them.</p>
                     )}
                 </div>
             </BoxContainer>

@@ -1,10 +1,10 @@
 .navbar {
-    margin-left: -1rem;
+    margin-left: 0;
 }
 
 .navcontainer {
-    padding: 0.5rem;
-    width: calc(100% - 60px);
+    padding: 0.35rem 0.5rem;
+    width: calc(100% - 72px);
     position: fixed;
     text-align: right;
     display: flex;
@@ -12,7 +12,7 @@
 }
 
 .navcontainer.active {
-    width: calc(100% - 256px);
+    width: calc(100% - 248px);
 }
 
 .navcontainer-navbar {
@@ -20,7 +20,7 @@
     display: flex;
     justify-content: flex-end;
     position: relative;
-    margin-left: -1rem;
+    margin-left: 0;
 
 }
 
@@ -54,7 +54,7 @@
     justify-content: space-between;
     align-items: center;
     /* padding-top: 1.5rem; */
-    padding: 1.5rem 0;
+    padding: 1rem 0;
 }
 
 .navbar-setter-button {
@@ -125,7 +125,7 @@
 
 .additional_content_container-header-text {
     font-family: "Gilroy";
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 600;
     /* line-height: 22px; */
     letter-spacing: -0.4000000059604645px;
@@ -157,4 +157,80 @@
 
 .team_mates-mates_container-feild-container-button.mate_button button {
     border-radius: 8px;
+}
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 1200px) {
+    .SetterChange {
+        margin-right: 3rem;
+    }
+
+    .additional-content-right-teammate {
+        margin-right: 2rem;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .navcontainer,
+    .navcontainer.active {
+        width: calc(100% - 64px);
+        padding: 0.25rem 0.5rem;
+    }
+
+    .additional-content {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.75rem 0;
+        justify-content: flex-end;
+    }
+
+    .SetterChange {
+        margin-right: 1rem;
+        font-size: 14px;
+    }
+
+    .pro_img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .additional_content_container-header-text {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .navcontainer,
+    .navcontainer.active {
+        width: 100%;
+    }
+
+    /* Hide the non-essential "Setter 12Apr-17Apr" switcher on mobile */
+    .SetterChange {
+        display: none;
+    }
+
+    .additional-content-right-teammate {
+        margin-right: 0.5rem;
+        font-size: 13px;
+    }
+
+    .pro_img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .navbar-setter-button {
+        margin-right: 0.5rem;
+    }
+
+    .notifi_img {
+        margin-left: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .additional_content_container-header-text {
+        font-size: 20px;
+    }
 }

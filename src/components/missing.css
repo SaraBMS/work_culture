@@ -22,3 +22,19 @@
     text-decoration: underline;
     color: rgb(151, 7, 7);
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .missing {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .missing h2 {
+        font-size: 28px;
+    }
+
+    .missing p {
+        font-size: 16px;
+    }
+}

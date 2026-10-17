@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import mockAdapter from '../api/mockAdapter';
 
 const useAxiosFetch = (dataUrl) => {
 
@@ -15,6 +16,7 @@ const useAxiosFetch = (dataUrl) => {
             setIsLoading(true);
             try {
                 const response = await axios.get(url, {
+                    adapter: mockAdapter,
                     cancelToken: source.token
                 });
                 if (isMounted) {

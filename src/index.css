@@ -15,7 +15,7 @@
 
 body {
   background: var(--body-color);
-  font-size: 14px;
+  font-size: 13px;
 
 }
 
@@ -318,4 +318,17 @@ a {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: var(--main-color);
+}
+
+/* ===== Global responsive overrides (appended) ===== */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    font-size: 13px;
+  }
 }

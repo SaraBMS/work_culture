@@ -7,6 +7,7 @@ import arrowRight from '../../assets/images/arrowRight.svg';
 import { useStateContext } from '../../hook/ContextProvider';
 import { useRole } from '../../hook/EmailProvider';
 import { useImage, useEmail } from '../../hook/EmailProvider';
+import api from '../../api/SignUpAPI';
 import Refresh from '../../assets/images/refreshButton.svg';
 import notificationBell from '../../assets/images/notificationBell.svg';
 import NotifiBell from '../../assets/images/NotifiBell.svg';
@@ -33,12 +34,8 @@ const Navbar = ({teamMateId }) => {
     if (teamMateId) {
       const fetchTeamMate = async () => {
         try {
-          const response = await fetch(`http://localhost:3500/SignUpAPI/${teamMateId}`);
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          setTeamMateName(data.name);  // Set the team mate's name
+          const response = await api.get(`/SignUpAPI/${teamMateId}`);
+          setTeamMateName(response.data ? response.data.name : '');  // Set the team mate's name
         } catch (error) {
           console.error('Error fetching teamMate:', error);
         }

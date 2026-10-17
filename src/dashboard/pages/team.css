@@ -43,3 +43,26 @@
     text-align: center;
     color: #FFFFFF;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .team {
+        margin-right: 0;
+    }
+
+    .taem_container-header {
+        flex-direction: column;
+    }
+
+    .taem_container-header .tap_team {
+        height: 44px;
+    }
+
+    .taem_container-header .tap_team.leagership {
+        border-radius: 20px 20px 0 0;
+    }
+
+    .taem_container-header h2 {
+        font-size: 15px;
+    }
+}

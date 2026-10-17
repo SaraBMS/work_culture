@@ -488,3 +488,70 @@
         width: 219px;
     }
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 1200px) {
+    .canvas {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .canvas {
+        width: 78%;
+    }
+
+    .canvas-container-header {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .canvas-container-header-goal {
+        margin: 0 0.5rem;
+    }
+
+    .canvas-container-goal_descrip .goal_descrip_box,
+    .canvas-container-actual_content-box {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .canvas-container-actual_content-box .attachment_container {
+        flex-wrap: wrap;
+    }
+
+    .canvas-container-actual_content-box .attachment_container-box {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .canvas-container-buttons {
+        gap: 1.5rem;
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .canvas {
+        width: 100%;
+        border-right: 2px solid transparent;
+    }
+
+    .canvas-container {
+        padding: 1rem 1rem 0rem 1rem;
+    }
+
+    .canvas-container-header-goal .goal-checkbox_canvas,
+    .styled-select {
+        width: 100%;
+    }
+
+    .canvas-container-buttons {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .canvas-container-buttons .save_button {
+        width: 140px;
+    }
+}

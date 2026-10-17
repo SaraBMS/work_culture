@@ -165,3 +165,47 @@
 .notifireminder-container-buttons .save_button:hover {
     box-shadow: 0 0 10px var(--main-color);
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .notifireminder-container {
+        width: 90%;
+        max-width: 760px;
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .notifireminder-container-notifications {
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .notifireminder-container {
+        width: 94%;
+        padding: 16px;
+    }
+
+    .notifireminder-container-header h2 {
+        font-size: 20px;
+    }
+
+    .notifireminder-container-notifications-content {
+        width: 140px;
+        height: 150px;
+        margin: 0;
+    }
+
+    .notifireminder-container-buttons {
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-right: 0;
+    }
+
+    .notifireminder-container-buttons .save_button {
+        width: 140px;
+    }
+}

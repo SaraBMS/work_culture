@@ -74,3 +74,42 @@
 .setter-container .xpoint_setter {
     max-width: 35%;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .setter-container .todo_goals,
+    .setter-container .done_goals,
+    .setter-container .setter_percentage,
+    .setter-container .xpoint_setter {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .actual_goal_box {
+        flex-wrap: wrap;
+        min-height: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .setter {
+        height: auto;
+        min-height: 100vh;
+        margin-right: 0;
+    }
+
+    .setter-container {
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .actual_goal_box {
+        flex-direction: column;
+    }
+
+    .setter-container .todo_goals,
+    .setter-container .done_goals,
+    .setter-container .setter_percentage {
+        min-height: auto;
+    }
+}

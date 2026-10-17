@@ -61,7 +61,9 @@ const Todo = () => {
                                 className='todo_span'
                                 onClick={() => handleToggleGoalCompletion(goal.id)}
                             ></span>
-                            Goal {goal.id}
+                            <span onClick={() => handleToggleGoalCompletion(goal.id)}>
+                                {goal.description || `Goal ${goal.id}`}
+                            </span>
                         </label>
                     ))
                 ) : (  <p className='lack_goals'> No Goals To Display.</p>))}

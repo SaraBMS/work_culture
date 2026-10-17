@@ -1,0 +1,84 @@
+{
+  "Notifications": [
+    {
+      "id": "1725779533448",
+      "type": "Good Job",
+      "message": "Good Job has been sent from the admin to Sara (sara@f)",
+      "date": "9/7/2024",
+      "read": false,
+      "color": "#22A364",
+      "border": "#22A364",
+      "email": "sara@f"
+    },
+    {
+      "id": "1725785572435",
+      "type": "Soft Reminder",
+      "message": "Soft Reminder has been sent from the admin to Obada Rudainy (obada@r)",
+      "date": "9/7/2024",
+      "read": false,
+      "color": "#FFC85C",
+      "border": "#FFC85C",
+      "email": "obada@r"
+    },
+    {
+      "id": "1725790474358",
+      "type": "Hard Reminder",
+      "message": "Hard Reminder has been sent from the admin to Mohammed Hassan (mohammed@h)",
+      "date": "9/8/2024",
+      "read": true,
+      "color": "#FF003D",
+      "border": "#FF003D",
+      "email": "mohammed@h"
+    },
+    {
+      "id": "1725793257321",
+      "type": "Warning",
+      "message": "Warning has been sent from the admin to Leen Deeb (leen@d)",
+      "date": "9/8/2024",
+      "read": true,
+      "color": "#FF003D",
+      "border": "#FF003D",
+      "email": "leen@d"
+    },
+    {
+      "id": "1725793431880",
+      "type": "Soft Reminder",
+      "message": "Soft Reminder has been sent from the admin to Eve (eve@e)",
+      "date": "9/8/2024",
+      "read": false,
+      "color": "#FFC85C",
+      "border": "#FFC85C",
+      "email": "eve@e"
+    },
+    {
+      "id": "1726605173161",
+      "type": "Good Job",
+      "message": "Good Job has been sent from the admin to Leen Deeb (leen@l)",
+      "date": "9/17/2024",
+      "read": false,
+      "color": "#22A364",
+      "border": "#22A364",
+      "email": "leen@l"
+    },
+    {
+      "id": "1726605173170",
+      "type": "Soft Reminder",
+      "message": "Soft Reminder has been sent from the admin to Maya AB (maya@business.com)",
+      "date": "9/18/2024",
+      "read": false,
+      "color": "#FFC85C",
+      "border": "#FFC85C",
+      "email": "maya@business.com"
+    },
+    {
+      "id": "1726605173171",
+      "type": "Good Job",
+      "message": "Good Job has been sent from the admin to Lynn Deeb (lynn@business.com)",
+      "date": "9/18/2024",
+      "read": false,
+      "color": "#22A364",
+      "border": "#22A364",
+      "email": "lynn@business.com"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api1 from '../../../api/DashboardAPI';
+import api2 from '../../../api/SignUpAPI';
 import './teammates.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import teammates from '../../../assets/images/teammates 1.svg';
@@ -9,21 +10,12 @@ import MedalOne from '../../../assets/images/first_1.svg';
 import Avatar from '../../../assets/images/Avatar.svg';
 import MedalTwo from '../../../assets/images/first_2.svg';
 import MedalThree from '../../../assets/images/first- 3.svg';
-import { useImage } from '../../../hook/EmailProvider';
 import { useEmail, useRole } from '../../../hook/EmailProvider';
 import useAxiosFetch from '../../../hook/useAxiosFetch';
 import MonthSelect from './MonthSelect';
 import { useStateContext } from '../../../hook/ContextProvider';
 // import Question from '../Admin/Question';
 
-
-const api1 = axios.create({
-    baseURL: 'http://localhost:3400'
-});
-
-const api2 = axios.create({
-    baseURL: 'http://localhost:3500'
-});
 
 const agencyStyles = {
     'DevSyro': {
@@ -49,9 +41,8 @@ const agencyStyles = {
 };
 
 const TeamMates = () => {
-    const { image } = useImage();
     const [search, setSearch] = useState('');
-    const { email, yourQue, agency } = useEmail();
+    const { email, yourQue } = useEmail();
     const [teamMates, setTeamMates] = useState([]);
     const { fetchError, isLoading } = useAxiosFetch('http://localhost:3400/DashboardAPI');
     const location = useLocation();
@@ -96,7 +87,7 @@ const TeamMates = () => {
         
                     // Extract data from responses
                     const dashboardData = dashboardResponse.data; 
-                    const signupData = signupResponse.data; 
+                    const signupData = signupResponse.data.filter((item) => item.role !== 'admin');
         
                     // Create a map for quick lookup of percentage by email
                     const emailToPercentageMap = dashboardData.reduce((acc, item) => {
@@ -118,7 +109,7 @@ const TeamMates = () => {
                         };
         
                         // Define profile image
-                        const profileImage = signupItem.image && signupItem.image.startsWith('blob:')
+                        const profileImage = signupItem.image && !signupItem.image.startsWith('blob:')
                             ? signupItem.image
                             : Avatar;
         
@@ -157,8 +148,7 @@ const TeamMates = () => {
    //Display mate profile 
     const handleProfileClick = (teamMate) => {
         // Check access control logic
-        if (role === 'user' ) {
-            // if (role === 'admin' || agency === teamMate.agency) {
+        if (role === 'admin' || role === 'user' ) {
             navigate(`/admin/profilemate/${teamMate.id}`);  // Navigate to the profile if user is admin or same agency
         } else {
             alert('Access Denied: You do not have permission to view this profile.');
@@ -235,7 +225,7 @@ const handleSendReminder = (teamMate) => {
                         <img src={refreshButton} alt="refreshButton" />
                     </button>
                     {role !== 'admin' &&  !renderQuestionPgae && (
-                        <button type='button' onClick={''}>
+                        <button type='button'>
                             <img src={arrowButton} alt="arrowButton" />
                         </button>
                     )}
@@ -272,7 +262,7 @@ const handleSendReminder = (teamMate) => {
                                               style={{ cursor: 'pointer' }}
                                             className="team_mates-mates_container-feild-container-info-profile">
                                                 <img
-                                                    src={image || teamMate.profile}
+                                                    src={teamMate.profile}
                                                     alt="profile_image"
                                                     className="pro_img mate"
                                                     style={{ borderColor: teamMate.agency_color }} 
@@ -294,7 +284,7 @@ const handleSendReminder = (teamMate) => {
                                         </div> : 'button'}
                                         {role === 'admin' && (
                                                 <div className="team_mates-mates_container-feild-container-button">
-                                                    <button type='button' onClick={() => handleSendReminder(teamMate.id)}>Send Reminder</button>
+                                                    <button type='button' onClick={() => handleSendReminder(teamMate)}>Send Reminder</button>
                                                 </div>
                                             )}
                                     </div>

@@ -133,3 +133,36 @@
     text-align: center;
     margin-right: 0.2rem;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .aboutus-container {
+        height: auto;
+        max-height: none;
+        margin: 1rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .aboutus {
+        margin-right: 0;
+    }
+
+    .aboutus-container-header h1,
+    .faq-container-header h1 {
+        font-size: 28px;
+    }
+
+    .aboutus-container-bio p {
+        font-size: 15px;
+        line-height: 24px;
+    }
+
+    .faq-container-questions-content-qa-question {
+        font-size: 17px;
+    }
+
+    .faq-container-questions-content-qa-answer {
+        font-size: 15px;
+    }
+}

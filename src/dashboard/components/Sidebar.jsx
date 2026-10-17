@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './sidebar.css';
 import logo from '../../assets/images/logo.png';
 import logoIcon from '../../assets/images/logoIcon.svg';
 import Arrow from './Arrow';
 import { useStateContext } from '../../hook/ContextProvider';
-import { useRole } from '../../hook/EmailProvider';
+import { useAuth, useRole } from '../../hook/EmailProvider';
 
 const Logo = ({ activeMenu }) => (
   <img
@@ -25,9 +25,9 @@ const ToggleButton = ({ activeMenu, setActiveMenu }) => (
   </button>
 ); 
 
-const LogoutButton = ({ activeMenu }) => (
+const LogoutButton = ({ activeMenu, onLogout }) => (
   <div className={`logout_button ${activeMenu ? '' : 'collapsed'}`}>
-    <button type='button'>
+    <button type='button' onClick={onLogout}>
       <svg
         width='24'
         height='24'
@@ -77,6 +77,8 @@ const AskButton = ({ activeMenu,
 const Sidebar = ({ routes }) => {
   const { activeMenu, setActiveMenu, screenSize, setscreenSize, openpopUp } = useStateContext();
   const { role } = useRole(); 
+  const { logout } = useAuth();
+  const navigate = useNavigate();
   // const {role}  = {role : 'admin'};
 
 
@@ -91,8 +93,15 @@ const Sidebar = ({ routes }) => {
     if (activeMenu && screenSize <= 900) setActiveMenu(false);
   }, [activeMenu, screenSize, setActiveMenu]);
 
-  // Filter routes based on the role
-  const filteredRoutes = routes.filter(route => route.roles.includes(role));
+  // Admin should be able to access the full dashboard tabs, not only admin-only pages.
+  const filteredRoutes = role === 'admin'
+    ? routes
+    : routes.filter(route => route.roles.includes(role));
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
 
   
   return (
@@ -118,7 +127,7 @@ const Sidebar = ({ routes }) => {
             </div>
           ))}
           {role !== 'admin' && <AskButton activeMenu={activeMenu} openpopUp={openpopUp} />}
-          <LogoutButton activeMenu={activeMenu} />
+          <LogoutButton activeMenu={activeMenu} onLogout={handleLogout} />
         </div>
       </div>
     </div>

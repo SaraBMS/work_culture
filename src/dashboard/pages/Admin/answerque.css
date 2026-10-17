@@ -128,3 +128,50 @@
 .answerque-container-buttons .save_button:hover {
     box-shadow: 0 0 10px var(--main-color);
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .answerque-container {
+        width: 90%;
+        max-width: 760px;
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .answerque-container-question_field textarea {
+        width: 100%;
+    }
+
+    .answerque-container-buttons {
+        gap: 1.5rem;
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .answerque-container {
+        width: 94%;
+        padding: 16px;
+    }
+
+    .answerque-container-header h2 {
+        font-size: 24px;
+    }
+
+    .answerque-container-question_field textarea {
+        height: 150px;
+        margin: 1.5rem 0;
+        padding: 0.75rem 1rem;
+        font-size: 16px;
+    }
+
+    .answerque-container-buttons {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .answerque-container-buttons .save_button {
+        width: 140px;
+    }
+}

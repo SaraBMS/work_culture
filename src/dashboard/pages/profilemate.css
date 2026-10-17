@@ -111,3 +111,47 @@
     min-height: 459px;
     height: fit-content;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .profile_mate-container .w_58,
+    .profile_mate-container .w_39,
+    .profile_mate-container .w_50_border,
+    .profile_mate-container .w_50 {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .actual_goal_box {
+        flex-wrap: wrap;
+        min-height: auto;
+    }
+
+    .profile_mate-container .setterPercentage {
+        flex-direction: column !important;
+        gap: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .profile_mate {
+        margin-top: 0;
+        height: auto;
+        min-height: 100vh;
+        margin-right: 0;
+    }
+
+    .profile_mate-container {
+        margin-top: 4rem;
+        gap: 0.75rem;
+    }
+
+    .actual_goal_box {
+        flex-direction: column;
+    }
+
+    .profile_mate-container .w_50_border,
+    .profile_mate-container .w_50 {
+        min-height: auto;
+    }
+}

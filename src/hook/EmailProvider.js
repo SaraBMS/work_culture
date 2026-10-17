@@ -1,6 +1,6 @@
 import React, { useState, useContext, createContext, useRef, useEffect } from 'react';
 import api from '../api/SignUpAPI';
-import { register } from '../api/auth';
+import { login } from '../api/auth';
 // Create Contexts
 const EmailContext = createContext();
 const CodeContext = createContext();
@@ -8,10 +8,22 @@ const ImageContext = createContext();
 const RoleContext = createContext(); // New Role Context
 const AuthContext = createContext(); // New Auth Context for authentication
 
+const getStoredUser = () => {
+    try {
+        const storedUser = localStorage.getItem('workCultureUser');
+        return storedUser ? JSON.parse(storedUser) : null;
+    } catch (error) {
+        console.error('Error reading stored user:', error);
+        return null;
+    }
+};
+
 export const EmailProvider = ({ children }) => {
+    const storedUser = getStoredUser();
+
     // Email Context States
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [name, setName] = useState(storedUser?.name || '');
+    const [email, setEmail] = useState(storedUser?.email || '');
     const [yourQue, setYourQue] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConf, setPasswordConf] = useState('');
@@ -29,16 +41,16 @@ export const EmailProvider = ({ children }) => {
     const [check, setCheck] = useState(false);
     const [verificationCode, setVerificationCode] = useState(['', '', '', '']);
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(storedUser?.image || null);
     const inputRef = useRef(null);
-    const [agency, setAgency] = useState('');
+    const [agency, setAgency] = useState(storedUser?.selectedOption2 || '');
 
     // New state to manage user role
-    const [role, setRole] = useState("user");
+    const [role, setRole] = useState(storedUser?.role || "user");
 
     // Auth Context States
-    const [authToken, setAuthToken] = useState(true);
-    const [user, setUser] = useState(null);
+    const [authToken, setAuthToken] = useState(localStorage.getItem('token') || '');
+    const [user, setUser] = useState(storedUser);
 
     const options1 = [
         { value: 'BackPoint0', label: 'BackPoint0 ', color: '#ff0000' },
@@ -79,6 +91,16 @@ export const EmailProvider = ({ children }) => {
         fetchQuestions();
     }, [email, yourQue]);
 
+    useEffect(() => {
+        if (!user) return;
+
+        setName(user.name || '');
+        setEmail(user.email || '');
+        setAgency(user.selectedOption2 || '');
+        setImage(user.image || null);
+        setRole(user.role || (String(user.email || '').toLowerCase().includes('admin') ? 'admin' : 'user'));
+    }, [user]);
+
     // Fetch user data including agency to be able to access profile team mates
     // useEffect(() => {
     //     const fetchUserData = async () => {
@@ -96,20 +118,23 @@ export const EmailProvider = ({ children }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const normalizedEmail = email.trim().toLowerCase();
+        const detectedRole = normalizedEmail.includes('admin') ? 'admin' : 'user';
+
         const payload = {
             name,
-            email,
+            email: normalizedEmail,
             password,
             passwordConf,
             image,
-            selectedOption1: selectedOption1 ? selectedOption1.value : null,
-            selectedOption2: selectedOption2 ? selectedOption2.value : null,
-            selectedOption3: selectedOption3 ? selectedOption3.value : null,
+            selectedOption1: selectedOption1 ? selectedOption1.value.trim() : null,
+            selectedOption2: selectedOption2 ? selectedOption2.value.trim() : null,
+            selectedOption3: selectedOption3 ? selectedOption3.value.trim() : null,
             check,
             number,
             bio,
             verificationCode: verificationCode.join(''),
-            role,
+            role: detectedRole,
         };
 
         console.log('Payload:', payload);
@@ -133,11 +158,22 @@ export const EmailProvider = ({ children }) => {
                 setPasswordError('');
             }
 
-            if (!email.includes('@')) {
+            if (!normalizedEmail.includes('@')) {
                 setEmailError("Email must contain '@'");
                 return;
             } else {
                 setEmailError('');
+            }
+
+            const existingUsersResponse = await api.get('/SignUpAPI');
+            const existingUsers = Array.isArray(existingUsersResponse.data) ? existingUsersResponse.data : [];
+            const emailAlreadyExists = existingUsers.some(
+                (item) => String(item.email || '').toLowerCase() === normalizedEmail
+            );
+
+            if (emailAlreadyExists) {
+                setEmailError('This email is already registered');
+                return;
             }
 
 
@@ -154,24 +190,32 @@ export const EmailProvider = ({ children }) => {
                 setImage(null);
                 setNumber('');
                 setBio('');
+                setCurrentStep(1);
             };
 
             const response = await api.post('/SignUpAPI', payload);
             console.log('Response:', response.data);
 
             if (response.status === 200) {
-                // Handle user authentication and role here
-                const token = await register(email, password);
+                const token = await login(normalizedEmail, password);
+                const createdUser = { ...response.data, role: detectedRole };
+
                 localStorage.setItem('token', token);
-                setAuthToken(token); // Update auth token state
-                setRole(role); // If needed, update the role state
+                localStorage.setItem('workCultureUser', JSON.stringify(createdUser));
+
+                setAuthToken(token);
+                setUser(createdUser);
+                setRole(detectedRole);
                 console.log('User signed up successfully:', response.data);
                 resetForm();
+                return { success: true, role: detectedRole };
             } else {
                 console.log('Server error:', response.data.error || 'Unknown error');
+                return { success: false };
             }
         } catch (err) {
             console.log(`Server error: ${err.message}`);
+            return { success: false, error: err.message };
         }
     };
 
@@ -205,6 +249,22 @@ export const EmailProvider = ({ children }) => {
         }
     };
 
+    const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('workCultureUser');
+        setAuthToken('');
+        setUser(null);
+        setRole('user');
+        setName('');
+        setEmail('');
+        setPassword('');
+        setPasswordConf('');
+        setAgency('');
+        setImage(null);
+        setCheck(false);
+        setNotifications([]);
+    };
+
     return (
         <EmailContext.Provider value={{
             name, setName, email, setEmail, password, setPassword, nameError, setNameError,
@@ -217,8 +277,8 @@ export const EmailProvider = ({ children }) => {
         }}>
             <CodeContext.Provider value={{ verificationCode, setVerificationCode, handleChange, inputRefs }}>
                 <ImageContext.Provider value={{ image, setImage, handleImageClick, handleImageChange, inputRef }}>
-                    <RoleContext.Provider value={{ role }}>
-                        <AuthContext.Provider value={{ authToken, user, setAuthToken, setUser }}>
+                    <RoleContext.Provider value={{ role, setRole }}>
+                        <AuthContext.Provider value={{ authToken, user, setAuthToken, setUser, logout }}>
                             {children}
                         </AuthContext.Provider>
                     </RoleContext.Provider>

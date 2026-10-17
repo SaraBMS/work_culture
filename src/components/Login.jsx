@@ -1,7 +1,7 @@
 
 // Origin Login:
 
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import loginImg from '../assets/images/login.png';
@@ -9,14 +9,17 @@ import api from '../api/SignUpAPI.js';
 import './login.css';
 import Transition from '../Transition';
 import PasswordLogin from './PasswordLogin';
-import { useEmail, useAuth } from '../hook/EmailProvider.js';
+import { useEmail, useAuth, useRole } from '../hook/EmailProvider.js';
 import {login} from '../api/auth.js';
 
 const Login = () => {
-    const { email, setEmail, check, setCheck, password, setPassword } = useEmail();
-    const { setAuthToken } = useAuth(); // Access context functions for authentication and role
+    const { email, setEmail, check, setCheck, password, setPassword, setName, setAgency } = useEmail();
+    const { setAuthToken, setUser } = useAuth(); // Access context functions for authentication and role
+    const { setRole } = useRole();
     const navigate = useNavigate(); // For navigation after login
     const location = useLocation();
+    const [loginError, setLoginError] = useState('');
+    const [loginStatus, setLoginStatus] = useState('');
 
  // Update document title based on the current path
     useEffect(() => {
@@ -34,28 +37,45 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoginError('');
+        setLoginStatus('');
 
         try {
-            const response = await api.post('/SignUpAPI', { email, password, check });
-            console.log('Response:', response.data);
+            const response = await api.get('/SignUpAPI');
+            const users = Array.isArray(response.data) ? response.data : [];
+            const normalizedEmail = email.trim().toLowerCase();
+            const matchedUser = users.find((user) => (
+                String(user.email || '').toLowerCase() === normalizedEmail
+                && String(user.password || '') === password
+            ));
 
-            if (response.status === 200) {
-                // Handle successful login
-                const token = await login(email, password);
-                localStorage.setItem('token', token);
-                setAuthToken(token); // Update auth token state
-                resetForm();
-                navigate('/admin'); // Redirect to a protected route (e.g., dashboard)
-            } else {
-                console.log('Login failed:', response.data.error || 'Unknown error');
+            if (!matchedUser) {
+                setLoginError('Login failed. Check the email and password, then try again.');
+                return;
             }
+
+            const token = await login(normalizedEmail, password);
+            const detectedRole = matchedUser.role || (normalizedEmail.includes('admin') ? 'admin' : 'user');
+            const currentUser = { ...matchedUser, role: detectedRole };
+
+            localStorage.setItem('token', token);
+            localStorage.setItem('workCultureUser', JSON.stringify(currentUser));
+
+            setAuthToken(token);
+            setUser(currentUser);
+            setRole(detectedRole);
+            setName(currentUser.name || '');
+            setEmail(currentUser.email || email);
+            setAgency(currentUser.selectedOption2 || '');
+            setLoginStatus('Login successful. Redirecting now...');
+            resetForm();
+            navigate(detectedRole === 'admin' ? '/admin/control-panel' : '/admin/home');
         } catch (err) {
-            console.log(`Login failed: ${err.message}`);
+            setLoginError(`Login failed: ${err.message}`);
         }
     };
 
     const resetForm = () => {
-        setEmail('');
         setPassword('');
         setCheck(false);
     };
@@ -72,13 +92,19 @@ const Login = () => {
                 </div>
                 <div className="log__container-content-inputs">
                     <form onSubmit={handleSubmit}>
+                        <div className='auth_hint_card'>
+                            <p><strong>Admin demo:</strong> <code>admin@admin.com</code> / <code>admin99999</code></p>
+                            <p><strong>User demo:</strong> <code>maya@business.com</code> / <code>Password123</code></p>
+                        </div>
+                        {loginError && <div className='auth_status auth_status-error'>{loginError}</div>}
+                        {loginStatus && <div className='auth_status auth_status-success'>{loginStatus}</div>}
                         <label htmlFor="email" className='log_label'>Email Address</label>
                         <input
                             className='log_input'
                             type="email"
                             id="email"
                             required
-                            placeholder='Email Address'
+                            placeholder='Email Address (admin@admin.com)'
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />

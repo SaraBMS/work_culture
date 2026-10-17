@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
+import mockAdapter from '../api/mockAdapter';
 const StateContext = createContext();
 
 const initialState = {
@@ -27,7 +28,7 @@ export const ContextProvider = ({ children }) => {
 
     const fetchNotifications = async () => {
         try {
-            const response = await axios.get('notification_endpoint');
+            const response = await axios.get('/Notifications', { adapter: mockAdapter });
             const notifications = response.data;
             setNotifications(notifications);
             setHasNotification(notifications.some(notif => !notif.read));

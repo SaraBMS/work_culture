@@ -209,3 +209,62 @@ input::selection {
         height: 70px;
     }
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .verify__container {
+        flex-direction: column-reverse;
+    }
+
+    .verify__container-content {
+        padding: 1rem 1.5rem;
+    }
+
+    .verify__container-content-inputs {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .verify__container-content-inputs input {
+        margin: 0 3px;
+    }
+
+    .verify__container-image img {
+        height: 50vh;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .verify__container-content-header h1 {
+        font-size: 28px;
+    }
+
+    .verify__container-content-header p {
+        width: 100%;
+        max-width: 373px;
+    }
+
+    .verify__container-content-inputs input {
+        width: 64px;
+        height: 64px;
+        font-size: 24px;
+        margin: 0 3px;
+    }
+
+    .verify__container-image img {
+        height: 35vh;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .verify__container-image {
+        display: none;
+    }
+
+    .verify__container-content-inputs input {
+        width: 56px;
+        height: 56px;
+        font-size: 20px;
+        margin: 0 2px;
+    }
+}

@@ -56,3 +56,11 @@
 /* .month {
     padding: 0.5rem;
 } */
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .styled-month-select {
+        width: 90px;
+        font-size: 11px;
+    }
+}

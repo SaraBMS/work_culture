@@ -183,3 +183,38 @@
 .notification-container-content-notifi_field-text-date svg {
     margin-right: 0.5rem;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .notification {
+        width: 90%;
+        max-width: 380px;
+        right: 8px;
+    }
+
+    .notification-container-content {
+        height: auto;
+        max-height: 240px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .notification {
+        position: fixed;
+        top: 60px;
+        left: 8px;
+        right: 8px;
+        width: auto;
+        max-width: none;
+    }
+
+    .notification-container {
+        margin: 0.5rem 0.75rem;
+    }
+
+    .notification-container-content-notifi_field-mark_container-mark {
+        font-size: 22px;
+        width: 44px;
+        height: 40px;
+    }
+}

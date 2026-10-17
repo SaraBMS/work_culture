@@ -12,7 +12,7 @@
 }
 
 .sidecontainer.active {
-    width: 256px;
+    width: 232px;
 }
 
 .sidecontainer.collapsed {
@@ -246,4 +246,46 @@
 
 .sidecontainer-sidebar-content-items .logout_button button:hover {
     box-shadow: 0 0 10px var(--main-color);
+}
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 1200px) {
+    .sidecontainer.active {
+        width: 208px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .sidecontainer {
+        border-radius: 0;
+    }
+
+    .sidecontainer.active {
+        width: 200px;
+    }
+
+    .sidecontainer-sidebar-content .logo {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .faq-item button,
+    .sidecontainer-sidebar-content-items .logout_button button {
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .sidecontainer.active {
+        width: 80%;
+        max-width: 256px;
+    }
+
+    .sidecontainer-sidebar-content {
+        margin: 1.5rem 0 2rem;
+    }
+
+    .sidecontainer-sidebar-content-items {
+        margin: 0 1rem;
+    }
 }

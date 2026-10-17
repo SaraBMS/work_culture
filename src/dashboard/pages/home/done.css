@@ -39,3 +39,18 @@
 .goal-checkbox.done_goal-checkbox {
     width: 100%;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .done_goals-container {
+        margin: 0.75rem;
+    }
+
+    .done_goals-container-header h1 {
+        font-size: 18px;
+    }
+
+    .done_goals-container-goals_input {
+        max-height: 280px;
+    }
+}

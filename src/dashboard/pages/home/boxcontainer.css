@@ -40,3 +40,16 @@
     pointer-events: none;
 
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .box-container {
+        min-height: 320px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .box-container {
+        min-height: 260px;
+    }
+}

@@ -64,3 +64,14 @@ circle {
 .setterPercentage-pending {
     margin: 3rem 0;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 600px) {
+    .setterPercentage {
+        padding-top: 0.5rem;
+    }
+
+    .setterPercentage-pending {
+        margin: 2rem 0;
+    }
+}

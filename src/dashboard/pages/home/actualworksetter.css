@@ -230,3 +230,37 @@
     text-align: center;
 
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .actualwork {
+        margin: 1rem;
+    }
+
+    .actualwork_container {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .actualwork-goal {
+        flex-wrap: wrap;
+    }
+
+    .actualwork-goal-field {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .goal-checkbox {
+        width: 100%;
+    }
+
+    .actualwork_container-header-text {
+        font-size: 16px;
+    }
+
+    .actualwork-mate_goal_header h2 {
+        font-size: 18px;
+    }
+}

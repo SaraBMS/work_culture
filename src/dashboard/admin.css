@@ -7,10 +7,55 @@
 .main-panel {
     height: 100vh;
     flex: 2;
-    margin-left: 5rem;
-
+    margin-left: 4.5rem;
+    padding: 0 0.75rem 1rem 0;
+    overflow-x: hidden;
 }
 
 .main-panel.active {
-    margin-left: 17rem;
+    margin-left: 15.5rem;
+}
+
+.main-panel > :not(.navbar) {
+    width: min(100%, 1240px);
+    margin-inline: auto;
+}
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 1200px) {
+    .main-panel.active {
+        margin-left: 14rem;
+    }
+
+    .main-panel > :not(.navbar) {
+        width: min(100%, 1160px);
+    }
+}
+
+@media screen and (max-width: 900px) {
+
+    /* Sidebar auto-collapses to 64px at this width */
+    .main-panel,
+    .main-panel.active {
+        margin-left: 64px;
+        padding-right: 0.75rem;
+    }
+
+    .main-panel > :not(.navbar) {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main-panel,
+    .main-panel.active {
+        margin-left: 0;
+        height: auto;
+        min-height: 100vh;
+        padding: 0 0 1rem;
+    }
+
+    .wrapper {
+        overflow-x: hidden;
+    }
 }

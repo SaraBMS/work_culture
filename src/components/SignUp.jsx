@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'; 
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
 import signUp from '../assets/images/Signup.png';
 import PasswordInput from './PasswordInput';
@@ -15,10 +15,13 @@ const SignUp = () => {
     const [nameError, setNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [passwordConfiError, setPasswordConfiError] = useState('');
+    const [submitError, setSubmitError] = useState('');
+    const [submitStatus, setSubmitStatus] = useState('');
     const [error1, setError1] = useState('');
     const [error2, setError2] = useState('');
     const [error3, setError3] = useState('');
     const location = useLocation();
+    const navigate = useNavigate();
     const { 
         name, setName, email, setEmail, password, passwordConf, setPasswordConf, setPassword,
         currentStep, setCurrentStep, selectedOption1,
@@ -51,7 +54,7 @@ const SignUp = () => {
         if (email.trim() === '') {
             setEmailError('Email is required');
             valid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        } else if (!email.includes('@')) {
             setEmailError('Email is not valid');
             valid = false;
         } else {
@@ -121,8 +124,21 @@ const SignUp = () => {
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
-        if (e.target.value.trim() !== '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value)) {
+        if (e.target.value.trim() !== '' || e.target.value.includes('@')) {
             setEmailError('');
+        }
+    };
+
+    const onSubmit = async (e) => {
+        setSubmitError('');
+        setSubmitStatus('');
+        const result = await handleSubmit(e);
+
+        if (result?.success) {
+            setSubmitStatus('Account created successfully. Redirecting now...');
+            navigate(result.role === 'admin' ? '/admin/control-panel' : '/admin/home');
+        } else if (result?.error) {
+            setSubmitError(result.error);
         }
     };
 
@@ -163,9 +179,15 @@ const SignUp = () => {
                 </div>
 
                 <div className="sign__container-content-inputs">
-                    <form onSubmit={(e) => handleSubmit(e)} className='signup_form'>
+                    <form onSubmit={onSubmit} className='signup_form'>
                         {currentStep === 1 && (
                             <>
+                                <div className='auth_hint_card'>
+                                    <p><strong>New account:</strong> use any new email with <code>@</code>.</p>
+                                    <p><strong>Admin rule:</strong> any email containing <code>admin</code> opens the admin panel after signup.</p>
+                                </div>
+                                {submitError && <div className='auth_status auth_status-error'>{submitError}</div>}
+                                {submitStatus && <div className='auth_status auth_status-success'>{submitStatus}</div>}
                                 {nameError && <div className="error">{nameError}</div>}
                                 <label htmlFor="fullName">Full Name</label>
                                 <input
@@ -183,7 +205,7 @@ const SignUp = () => {
                                     type="email"
                                     id="email"
                                     required
-                                    placeholder='Email Address'
+                                    placeholder='Email Address (admin@new.com or user@new.com)'
                                     value={email}
                                     onChange={handleEmailChange}
                                 />

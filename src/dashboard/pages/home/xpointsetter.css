@@ -206,3 +206,25 @@
     width: 36px;
     height: 36px;
 }
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .xpoint {
+        margin: 1rem;
+    }
+
+    .xpoint_container {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .xpoint_container-header-xpicon {
+        font-size: 26px;
+    }
+
+    .xpoint_container-header-text {
+        font-size: 16px;
+    }
+}

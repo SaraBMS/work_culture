@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import './analytics.css';
 import BoxContainer from '../../pages/home/BoxContainer';
-import { useImage, useEmail } from '../../../hook/EmailProvider';
+import { useEmail } from '../../../hook/EmailProvider';
 import api1 from '../../../api/SignUpAPI';
 import api2 from '../../../api/DashboardAPI';
 import Avatar from '../../../assets/images/Avatar.svg';
-
-const headerData = [
-  { title: 'Overdue Tasks', value: '55' },
-  { title: 'Candidate of BOB', value: 'Lynn Deeb' },
-  { title: 'Total Members', value: '300' },
-];
 
 const agencyStyles = {
   'ProSyro': { percentage: 30, agency_color: "#23C1FF", color: '#fff', background: "linear-gradient(103.18deg, #00FEFC -41.67%, #0002FE 141.58%)", borderColor: '#23C1FF' },
   'iSyro': { percentage: 65, agency_color: "#FAFF00", color: '#000000', background: "#FAFF00", borderColor: '#FAFF00' },
   'ArtSyro': { percentage: 45, agency_color: "#9824FF", color: '#000000', background: "#9824FF", borderColor: '#9824FF' },
-  'DevSyro': { percentage: 55, agency_color: "#fff", color: '#000000', background: '#fff' },
+  'DevSyro': { percentage: 55, agency_color: "#fff", color: '#000000', background: '#fff', borderColor: '#05CD99' },
   'Business': { percentage: 75, agency_color: "#09C76A", color: '#fff', background: '#09C76A', borderColor: '#09C76A' },
 };
 
 const Analytics = () => {
   const [teamMates, setTeamMates] = useState([]);
-  const { image } = useImage();
   const { email } = useEmail();
   const [agencyPercentages, setAgencyPercentages] = useState({});
+  const [headerData, setHeaderData] = useState([
+    { title: 'Overdue Tasks', value: '0' },
+    { title: 'Candidate of BOB', value: '-' },
+    { title: 'Total Members', value: '0' },
+  ]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +33,7 @@ const Analytics = () => {
         ]);
 
         const dashboardData = dashboardResponse.data; 
-        const signupData = signupResponse.data; 
+        const signupData = signupResponse.data.filter((item) => item.role !== 'admin');
 
         const emailToPercentageMap = dashboardData.reduce((acc, item) => {
           if (item.email) acc[item.email] = item.percentage || 0;
@@ -45,7 +43,7 @@ const Analytics = () => {
         const combinedData = signupData.map(signupItem => {
           const percentage = emailToPercentageMap[signupItem.email] || 0;
           const agencyStyle = agencyStyles[signupItem.selectedOption2] || { agency_color: '#000', color: '#000', background: '#0000001A' };
-          const profileImage = signupItem.image && signupItem.image.startsWith('blob:') ? signupItem.image : Avatar;
+          const profileImage = signupItem.image && !signupItem.image.startsWith('blob:') ? signupItem.image : Avatar;
 
           return {
             name: signupItem.name,
@@ -59,6 +57,9 @@ const Analytics = () => {
             id: signupItem.id
           };
         });
+
+        const candidateOfBob = [...combinedData].sort((a, b) => b.percentage - a.percentage)[0];
+        const overdueTasks = dashboardData.filter((item) => item.completed === false).length;
 
         const agencyPercentages = combinedData.reduce((acc, teamMate) => {
           if (!acc[teamMate.agency]) acc[teamMate.agency] = { total: 0, count: 0 };
@@ -75,6 +76,11 @@ const Analytics = () => {
 
         setTeamMates(combinedData);
         setAgencyPercentages(agencyPercentages);
+        setHeaderData([
+          { title: 'Overdue Tasks', value: String(overdueTasks) },
+          { title: 'Candidate of BOB', value: candidateOfBob?.name || '-' },
+          { title: 'Total Members', value: String(signupData.length) },
+        ]);
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
@@ -132,10 +138,10 @@ const Analytics = () => {
                 </div>
                 <div className='analytics-container-body-agency-bottom'>
                   <div className='analytics-container-body-agency-bottom-mate'>
-                    {teamMates.filter(tm => tm.agency === agencyName).map((teamMate) => (
+                    {teamMates.filter(tm => tm.agency === agencyName).sort((a, b) => b.percentage - a.percentage).slice(0, 4).map((teamMate) => (
                       <div key={teamMate.id} className="analytics-container-mates_container">
                         <img
-                          src={image || teamMate.profile}
+                          src={teamMate.profile}
                           alt="profile_image"
                           className="pro_img mate"
                           style={{ borderColor: teamMate.agency_color }}

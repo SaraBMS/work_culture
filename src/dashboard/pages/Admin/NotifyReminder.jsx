@@ -50,7 +50,7 @@ const defaultReminders = [
             };
     
             try {
-                const response = await api.post('/SignUpAPI', newNotification);
+                const response = await api.post('/Notifications', newNotification);
                 console.log('API Response:', response);
     
                 if (response.status === 201) {

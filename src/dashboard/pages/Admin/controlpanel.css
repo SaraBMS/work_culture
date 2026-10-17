@@ -1,29 +1,28 @@
 .control_panel {
     display: flex;
-    height: 100vh;
+    min-height: calc(100vh - 84px);
     background-color: #000;
-    margin-right: 1rem;
 }
 
 .control_panel-container {
-    width: 100%;
+    width: min(100%, 1120px);
     color: white;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 2rem;
-    margin-bottom: 4rem;
-    overflow-y: scroll;
+    margin: 1.25rem auto 2.5rem;
+    overflow-y: auto;
+    align-content: start;
 }
 
 .control_panel-container .w_65 {
-    max-width: 65%;
-    width: 65%;
+    max-width: 62%;
+    width: 62%;
 }
 
 .control_panel-container .w_33 {
-    max-width: 33%;
-    width: 33%;
+    max-width: 36%;
+    width: 36%;
 }
 
 /* .team_mates.height_container {
@@ -32,12 +31,12 @@
 } */
 
 .control_panel-container .team_mates {
-    min-height: 300px;
-    height: 350px;
+    min-height: 0;
+    height: 320px;
 }
 
 .control_panel-container .team_mates-mates_container {
-    height: 270px;
+    height: 236px;
 }
 
 
@@ -64,8 +63,8 @@
 
 .control_panel-container .admin_notification .notification-container-content {
     overflow-y: scroll;
-    height: 290px;
-    min-height: 290px;
+    height: 250px;
+    min-height: 250px;
 }
 
 .control_panel-container .admin_notification .notification-container-header {
@@ -74,4 +73,34 @@
 
 .control_panel-container .admin_notification .notification-container-content-notifi_field {
     padding: 0.5rem !important;
+}
+
+/* ===== Responsive overrides (appended) ===== */
+@media screen and (max-width: 900px) {
+    .control_panel-container .w_65,
+    .control_panel-container .w_33 {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .control_panel {
+        min-height: auto;
+    }
+
+    .control_panel-container .team_mates {
+        height: auto;
+        min-height: auto;
+    }
+
+    .control_panel-container .team_mates-mates_container {
+        height: auto;
+        max-height: 300px;
+    }
+
+    .control_panel-container .admin_notification .notification-container-content {
+        height: auto;
+        max-height: 290px;
+    }
 }
